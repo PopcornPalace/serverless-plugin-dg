@@ -1,0 +1,39 @@
+{
+  "name": "serverless-plugin-dg",
+  "version": "1.0.0",
+  "description": "Serverless API plugin, enables stage variables and logging for AWS API Gateway.",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "jshint src/*.js test/**/*.js",
+    "test": "npm run lint && mocha test/spec/**.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/PopcornPalace/serverless-plugin-dg.git"
+  },
+  "keywords": [
+    "serverless",
+    "api",
+    "stage",
+    "stage",
+    "variable",
+    "logging",
+    "api",
+    "gateway",
+    "aws"
+  ],
+  "author": "PopcornPalace",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PopcornPalace/serverless-plugin-dg/issues"
+  },
+  "homepage": "https://github.com/PopcornPalace/serverless-plugin-dg#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
