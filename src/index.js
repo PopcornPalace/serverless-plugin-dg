@@ -111,18 +111,20 @@ module.exports = function (serverless) {
                             DeploymentId: {
                                 Ref: deploymentKey
                             },
+                            CacheClusterEnabled: stageSettings.CacheClusterEnabled ||  false,
+                            CacheClusterSize: stageSettings.CacheClusterSize || '',
                             Variables: stageSettings.Variables || {},
-                            MethodSettings: [
+                            MethodSettings: _.union([
                                 _.defaults(
-                                    stageSettings.MethodSettings || {},
+                                    stageSettings.DefaultMethodSettings || {},
                                     {
                                         DataTraceEnabled: true,
                                         HttpMethod: '*',
                                         ResourcePath: '/*',
-                                        MetricsEnabled: false
+                                        MetricsEnabled: stageSettings.DefaultMethodSettings.MetricsEnabled
                                     }
                                 )
-                            ]
+                            ], stageSettings.MethodSettingsOverrides || [])
                         }
                     }))
                     .mapKeys((deployment, deploymentKey) => `ApiGatewayStage${_.upperFirst(deployment.Properties.StageName)}`)
