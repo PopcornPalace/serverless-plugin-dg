@@ -111,17 +111,17 @@ module.exports = function (serverless) {
                             DeploymentId: {
                                 Ref: deploymentKey
                             },
-                            CacheClusterEnabled: stageSettings.CacheClusterEnabled ||  false,
+                            CacheClusterEnabled: stageSettings.CacheClusterEnabled || false,
                             CacheClusterSize: stageSettings.CacheClusterSize,
                             Variables: stageSettings.Variables || {},
                             MethodSettings: _.union([
                                 _.defaults(
                                     stageSettings.DefaultMethodSettings || {},
                                     {
-                                        DataTraceEnabled: true,
+                                        DataTraceEnabled: stageSettings.DefaultMethodSettings.DataTraceEnabled || false,
                                         HttpMethod: '*',
                                         ResourcePath: '/*',
-                                        MetricsEnabled: stageSettings.DefaultMethodSettings.MetricsEnabled
+                                        MetricsEnabled: stageSettings.DefaultMethodSettings.MetricsEnabled || false
                                     }
                                 )
                             ], stageSettings.MethodSettingsOverrides || [])
