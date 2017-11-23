@@ -42,7 +42,7 @@ module.exports = function (serverless) {
                                         'Fn::Join': [
                                             '-',
                                             [
-                                                serverless.service.provider.stage,
+                                                serverless.service.custom.stage,
                                                 serverless.service.service,
                                                 'apiGatewayLogs'
                                             ]
@@ -74,8 +74,8 @@ module.exports = function (serverless) {
                                     '-',
                                     [
                                         serverless.service.service,
-                                        serverless.service.provider.stage,
-                                        serverless.service.provider.region,
+                                        serverless.service.custom.stage,
+                                        serverless.service.custom.region,
                                         'apiGatewayLogRole'
                                     ]
                                 ]
