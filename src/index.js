@@ -13,15 +13,14 @@ module.exports = function (serverless) {
             const deployments = _(template.Resources)
                 .pickBy((resource) => resource.Type === 'AWS::ApiGateway::Deployment');
 
-          let custom = serverless.service.custom
-          let dlq = `arn:aws:sqs:${custom.region}:${custom.accountId}:${custom.stage}-dlq`
-
-
+            let custom = serverless.service.custom
             const lambdas = _(template.Resources)
-                .pickBy((resource) => resource.Type === 'AWS::Lambda::Function').value()
+              .pickBy((resource) => resource.Type === 'AWS::Lambda::Function').value()
 
-            for(var k in lambdas)
-              lambdas[k].Properties.DeadLetterConfig = {TargetArn: dlq}
+            if(custom.dlq_arn)
+              for(var k in lambdas)
+                if(!lambdas[k].Properties.DeadLetterConfig)
+                  lambdas[k].Properties.DeadLetterConfig = {TargetArn: custom.dlq_arn}
 
 
             // TODO Handle other resources - ApiKey, BasePathMapping, UsagePlan, etc
