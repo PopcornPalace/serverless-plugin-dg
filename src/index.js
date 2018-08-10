@@ -13,6 +13,13 @@ module.exports = function (serverless) {
             const deployments = _(template.Resources)
                 .pickBy((resource) => resource.Type === 'AWS::ApiGateway::Deployment');
 
+            let custom = serverless.service.custom
+            if(custom.dlq_arn)
+              _(template.Resources)
+                .pickBy(r => r.Type === 'AWS::Lambda::Function')
+                .pickBy(r => !r.Properties.DeadLetterConfig)
+                .forEach((l, k) => l.Properties.DeadLetterConfig = {TargetArn: custom.dlq_arn})
+
             // TODO Handle other resources - ApiKey, BasePathMapping, UsagePlan, etc
             _.extend(template.Resources,
                 // Enable logging: IAM role for API Gateway, and API Gateway account settings
