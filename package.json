@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-dg",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Serverless API plugin, enables stage variables and logging for AWS API Gateway.",
   "main": "src/index.js",
   "scripts": {
