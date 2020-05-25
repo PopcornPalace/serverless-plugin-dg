@@ -14,11 +14,11 @@ module.exports = function (serverless) {
                 .pickBy((resource) => resource.Type === 'AWS::ApiGateway::Deployment');
 
             let custom = serverless.service.custom
-            if(custom.dlq_arn)
-              _(template.Resources)
-                .pickBy(r => r.Type === 'AWS::Lambda::Function')
-                .pickBy(r => !r.Properties.DeadLetterConfig)
-                .forEach((l, k) => l.Properties.DeadLetterConfig = {TargetArn: custom.dlq_arn})
+            if (custom.dlq_arn)
+                _(template.Resources)
+                    .pickBy(r => r.Type === 'AWS::Lambda::Function')
+                    .pickBy(r => !r.Properties.DeadLetterConfig)
+                    .forEach((l, k) => l.Properties.DeadLetterConfig = { TargetArn: custom.dlq_arn })
 
             // TODO Handle other resources - ApiKey, BasePathMapping, UsagePlan, etc
             _.extend(template.Resources,
@@ -134,7 +134,14 @@ module.exports = function (serverless) {
                             ], stageSettings.MethodSettingsOverrides || [])
                         }
                     }))
-                    .mapKeys((deployment, deploymentKey) => `ApiGatewayStage${_.upperFirst(deployment.Properties.StageName)}`)
+                    .mapKeys((deployment, deploymentKey) =>
+                        `ApiGatewayStage${
+                        deployment.Properties.StageName
+                            .split('-')
+                            .map(_.upperFirst)
+                            .join('Dash')
+                        }`
+                    )
                     .value(),
 
                 // Deployments, with the stage name removed (the Stage's DeploymentId property is used instead).
